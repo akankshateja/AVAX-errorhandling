@@ -1,0 +1,20 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.18;
+
+contract AssertionContract {
+    uint256 public totalValue;
+    function updateValue(uint256 newValue) external {
+        require(newValue > 0, "Value must be greater than zero");
+        uint256 oldValue = totalValue;
+        assert(newValue != oldValue);
+        totalValue = newValue;
+    }
+    function withdraw(uint256 amount) external {
+        require(amount <= totalValue, "Insufficient balance");
+        if (amount > totalValue) {
+            revert("Withdrawal failed");
+        }
+        
+        totalValue -= amount;
+    }
+}
